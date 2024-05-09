@@ -1,9 +1,8 @@
-import torch
+import numpy
 import random
-import bfs
+import glendaAI
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-mycat = bfs.cat()
+glenda_ai = glendaAI.bfs()
 
 class Glendy():
 
@@ -36,7 +35,7 @@ class Glendy():
     self.exits = self.base_exits.copy()
     self.blocks.clear()
     self.arrange_blocks()
-    state = torch.zeros((11, 11), device=device)
+    state = numpy.zeros((11, 11))
     for tp in self.blocks:
       state[tp] = -1
     state[self.start] = 1
@@ -53,11 +52,11 @@ class Glendy():
 
   def get_glenda_move(self, glenda):
     while True:
-      mycat.blocks = self.blocks
-      mycat.positionCat = glenda
-      glenda_move = mycat.BreadthFirstSearch(glenda, self.exits, self.blocks)
+      glenda_ai.blocks = self.blocks
+      glenda_ai.positionGlenda = glenda
+      glenda_move = glenda_ai.BreadthFirstSearch(glenda, self.exits, self.blocks)
       around = self.glenda_around(glenda)
-      match glenda_move.lower():
+      match glenda_move:
         case 'e':
             glenda_next = around[0]
         case 'ne':
@@ -71,13 +70,14 @@ class Glendy():
         case 'sw':
             glenda_next = around[5]
         case 'win':
-            glenda_next = 'win'
+            glenda_next = glenda
+            self.result = 'win'
       if (glenda_next not in self.blocks):
         return glenda_next
   
   def check_win(self, glenda):
-    if len(self.exits) == 0:
-      self.result = "win"
+    pass
+    # self.result = "win"
 
   def check_lose(self, glenda_next):
     if glenda_next in self.exits:

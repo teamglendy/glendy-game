@@ -3,7 +3,6 @@ import math
 import sys
 import numpy as np
 import env
-from tkinter import *
 from tkinter import messagebox
 
 env = env.Glendy()
@@ -75,7 +74,7 @@ while not done:
                 if (row, column) in env.exits:
                     env.exits.remove((row, column))
                 glenda_next = env.get_glenda_move(glenda)
-                if glenda_next == "win":
+                if env.result == "win":
                     draw_board()
                     pg.display.update()
                     messagebox.showinfo('Exit','You Won!')
@@ -85,7 +84,6 @@ while not done:
                 glenda = glenda_next
             draw_board()
             pg.display.update()
-            #if glenda in env.exits:
             env.check_lose(glenda)
             if env.result == "lose":
                 messagebox.showinfo('Exit','Gameover.')
