@@ -8,31 +8,37 @@ class netGlendy():
     def __init__(self):
         self.host = 'localhost'
         self.port = 1768
+        self.srv_err = False
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.connect((self.host, self.port))
-        self.sock.settimeout(0.1)
+        try:
+            self.sock.connect((self.host, self.port))
+        except:
+            messagebox.showerror('Error', 'There was a problem connecting to the server.')
+            self.srv_err = True
+        if self.srv_err == False:
+            self.sock.settimeout(0.1)
 
-        self.player = ''
-        self.n_rows = 11
-        self.n_columns = 11
-        self.glenda = (5, 5)
-        self.board_state = [[0 for i in range(11)] for i in range(11)]
-        self.done = False
+            self.player = ''
+            self.n_rows = 11
+            self.n_columns = 11
+            self.glenda = (5, 5)
+            self.board_state = [[0 for i in range(11)] for i in range(11)]
+            self.done = False
 
-        self.circle_color = (0, 0, 0)
-        self.glenda_color = (0, 255, 0)
-        self.block_color = (255, 0, 0)
+            self.circle_color = (0, 0, 0)
+            self.glenda_color = (0, 255, 0)
+            self.block_color = (255, 0, 0)
 
-        self.size = (625, 550)
-        self.circle_diameter = self.size[1]/11
-        self.circle_radius = self.circle_diameter/2
-        self.offset = self.circle_radius/5
+            self.size = (625, 550)
+            self.circle_diameter = self.size[1]/11
+            self.circle_radius = self.circle_diameter/2
+            self.offset = self.circle_radius/5
 
-        pg.display.init()
-        pg.display.set_caption("Glendy")
-        self.screen = pg.display.set_mode(self.size)
-        self.screen.fill((255, 255, 255))
-        self.draw_board()
+            pg.display.init()
+            pg.display.set_caption("Glendy")
+            self.screen = pg.display.set_mode(self.size)
+            self.screen.fill((255, 255, 255))
+            self.draw_board()
 
     def glenda_around(self, glenda):
         if glenda[0] % 2 == 0:
@@ -188,6 +194,6 @@ class netGlendy():
                 return
 
     def start(self):
-        while True:
+        while self.srv_err == False:
             self.play()
             self.alive()
