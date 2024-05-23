@@ -1,10 +1,9 @@
-import numpy
 import random
 import glendaAI
 
 glenda_ai = glendaAI.bfs()
 
-class Glendy():
+class GlendyEnv():
 
   start = (5, 5)
   blocks = []
@@ -18,27 +17,34 @@ class Glendy():
   actions = ['ne', 'e', 'se', 'nw', 'w', 'sw']
   result = ""
 
-  def arrange_blocks(self):
+  def arrange_blocks(self, difficulty):
     self.blocks.clear()
-    num_blocks = random.randint(5, 20)
+    if difficulty == 'Easy':
+      num_blocks = random.randint(10, 15)
+    elif difficulty == 'Medium':
+      num_blocks = random.randint(5, 10)
+    elif difficulty == 'Hard':
+      num_blocks = random.randint(1, 5)
+    elif difficulty == 'Impossible':
+       num_blocks = 0
     for i in range(num_blocks):
       row = random.randint(0, 10)
       column = random.randint(0, 10)
       if (row, column) not in self.blocks and (row, column) != (5, 5):
         self.blocks.append((row, column))
       else: i-=1
-    for tp in self.blocks:
-      if tp in self.exits:
-        self.exits.remove(tp)
+    for block in self.blocks:
+      if block in self.exits:
+        self.exits.remove(block)
 
   def reset_state(self):
     self.exits = self.base_exits.copy()
     self.blocks.clear()
     self.arrange_blocks()
-    state = numpy.zeros((11, 11))
-    for tp in self.blocks:
-      state[tp] = -1
-    state[self.start] = 1
+    state = [[0 for i in range(11)] for i in range(11)]
+    for block in self.blocks:
+      state[block[0]][block[1]] = -1
+    state[self.start[0]][self.start[1]] = 1
     return state
   
   def glenda_around(self, glenda):
@@ -74,10 +80,6 @@ class Glendy():
             self.result = 'win'
       if (glenda_next not in self.blocks):
         return glenda_next
-  
-  def check_win(self, glenda):
-    pass
-    # self.result = "win"
 
   def check_lose(self, glenda_next):
     if glenda_next in self.exits:
