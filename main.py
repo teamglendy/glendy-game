@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 from customtkinter import *
 from CTkMenuBar import *
 from CTkMessagebox import CTkMessagebox
