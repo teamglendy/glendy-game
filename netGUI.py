@@ -24,6 +24,7 @@ class netGlendy():
             self.glenda = (5, 5)
             self.board_state = [[0 for i in range(11)] for i in range(11)]
             self.done = False
+            self.finish = False
 
             self.circle_color = (0, 0, 0)
             self.glenda_color = (0, 255, 0)
@@ -71,8 +72,9 @@ class netGlendy():
             time.sleep(0.1)
             for event in pg.event.get():
                 if event.type == pg.QUIT:
+                    self.finish = True
                     pg.display.quit()
-                    return
+                    return None, None
                 if event.type == pg.MOUSEBUTTONDOWN:
                     x_axis = event.pos[0]
                     y_axis = event.pos[1]
@@ -92,28 +94,29 @@ class netGlendy():
                     
     def do_move(self):
         row, column = self.get_event()
-        if self.player == 'trapper':
-            self.sock.send(f'p {column} {row}\n'.encode('utf-8'))
-        elif self.player == 'glenda':
-            around = self.glenda_around(self.glenda)
-            while (row, column) not in around:
-                row, column = self.get_event()
-            idx = around.index((row, column))
-            match idx:
-                case 0:
-                    dir = 'E'
-                case 1:
-                    dir = 'NE'
-                case 2:
-                    dir = 'SE'
-                case 3:
-                    dir = 'W'
-                case 4:
-                    dir = 'NW'
-                case 5:
-                    dir = 'SW'
-            self.sock.send(f'm {dir}\n'.encode('utf-8'))
-        self.draw_board()
+        if row != None:
+            if self.player == 'trapper':
+                self.sock.send(f'p {column} {row}\n'.encode('utf-8'))
+            elif self.player == 'glenda':
+                around = self.glenda_around(self.glenda)
+                while (row, column) not in around:
+                    row, column = self.get_event()
+                idx = around.index((row, column))
+                match idx:
+                    case 0:
+                        dir = 'E'
+                    case 1:
+                        dir = 'NE'
+                    case 2:
+                        dir = 'SE'
+                    case 3:
+                        dir = 'W'
+                    case 4:
+                        dir = 'NW'
+                    case 5:
+                        dir = 'SW'
+                self.sock.send(f'm {dir}\n'.encode('utf-8'))
+            self.draw_board()
 
     def play(self):
         while not self.done:
@@ -190,10 +193,13 @@ class netGlendy():
     def alive(self):
         for event in pg.event.get():
             if event.type == pg.QUIT:
+                self.finish = True
                 pg.display.quit()
                 return
 
     def start(self):
         while self.srv_err == False:
             self.play()
+            if self.finish == True:
+                break
             self.alive()

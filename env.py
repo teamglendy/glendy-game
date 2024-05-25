@@ -5,6 +5,8 @@ glenda_ai = glendaAI.bfs()
 
 class GlendyEnv():
 
+  rows = 11
+  columns = 11
   start = (5, 5)
   blocks = []
   base_exits = [
@@ -37,7 +39,7 @@ class GlendyEnv():
       if block in self.exits:
         self.exits.remove(block)
 
-  def reset_state(self):
+  def reset_state(self): # extra
     self.exits = self.base_exits.copy()
     self.blocks.clear()
     self.arrange_blocks()

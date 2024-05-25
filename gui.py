@@ -9,8 +9,8 @@ class Glendy():
     def __init__(self, difficulty):
 
         self.env = env.GlendyEnv()
-        self.n_rows = 11
-        self.n_columns = 11
+        self.n_rows = self.env.rows
+        self.n_columns = self.env.columns
         self.board_state = [[0 for i in range(11)] for i in range(11)]
         self.glenda = self.env.start
         self.board_state[self.glenda[0]][self.glenda[1]] = 2
