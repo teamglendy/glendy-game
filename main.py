@@ -53,25 +53,31 @@ root.title('Glendy')
 root.resizable(False, False)
 set_appearance_mode("light")
 
-def online_game():
-    root.withdraw()
-    game = netGUI.netGlendy(5) # will be dynamic
-    game.start()
-    root.deiconify()
-
-def offline_game(window, difficulty, bsize):
+def get_scale(bsize):
     match bsize:
         case 'Tiny':
-            pygame_scale = int((real_width/125)/2)-5
+            scale = int((real_width/125)/2)-5
         case 'Small':
-            pygame_scale = int((real_width/125)/2)-3
+            scale = int((real_width/125)/2)-3
         case 'Normal':
-            pygame_scale = int((real_width/125)/2)-1
+            scale = int((real_width/125)/2)-1
         case 'Large':
-            pygame_scale = int((real_width/125)/2)+1
+            scale = int((real_width/125)/2)+1
+    return scale
+
+def offline_game(window, difficulty, bsize):
+    pygame_scale = get_scale(bsize)
     window.destroy()
     root.withdraw()
     game = gui.Glendy(difficulty, pygame_scale)
+    game.start()
+    root.deiconify()
+
+def online_game(window, player, bsize):
+    pygame_scale = get_scale(bsize)
+    window.destroy()
+    root.withdraw()
+    game = netGUI.netGlendy(pygame_scale)
     game.start()
     root.deiconify()
     
@@ -99,6 +105,30 @@ def offline_window():
     btn = CTkButton(master=newWin, text='Start the game!', command=lambda:offline_game(newWin, combo_difficulty.get(), combo_bsize.get()), corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
     btn.place(relx=0.5, rely=0.75, anchor="center")
 
+def online_window():    
+    newWin = CTkToplevel(root)
+    if platform.system() == 'Windows':
+        newWin.grab_set()
+    newWin.title("Online mode")
+    newWin.geometry(f'{win_width}x{win_height}+{x}+{y}')
+    newWin.resizable(False, False)
+    lbl = CTkLabel(master=newWin, text="Select player:", font=(font, font_size), text_color=text_color)
+    lbl.place(relx=0.5, rely=0.2, anchor="center")
+    lbl2 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size), text_color=text_color)
+    lbl2.place(relx=0.5, rely=0.4, anchor="center")
+    if platform.system() == 'Linux':
+        combo_player = ttk.Combobox(master=newWin, values=['Glenda', 'Trapper'], state='readonly', font=(font, font_size-5))
+        combo_bsize = ttk.Combobox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5))
+    else:
+        combo_player = CTkComboBox(master=newWin, values=['Glenda', 'Trapper'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
+        combo_bsize = CTkComboBox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
+    combo_player.set('Glenda')
+    combo_bsize.set('Normal')
+    combo_player.place(relx=0.5, rely=0.3, anchor='center')
+    combo_bsize.place(relx=0.5, rely=0.5, anchor='center')
+    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:online_game(newWin, combo_player.get(), combo_bsize.get()), corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
+    btn.place(relx=0.5, rely=0.75, anchor="center")
+
 def show_help():
     messagebox.showinfo(master=root, title="Help", message=
     '''Glendy is a simple game.
@@ -120,7 +150,7 @@ lbl.place(relx=0.5, rely=0.25, anchor="center")
 btn = CTkButton(master=root, text='Offline game', command=offline_window, corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
 btn.place(relx=0.5, rely=0.55, anchor="center")
 
-btn = CTkButton(master=root, text='Online game', command=online_game, corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
+btn = CTkButton(master=root, text='Online game', command=online_window, corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
 btn.place(relx=0.5, rely=0.75, anchor="center")
 
 root.mainloop()
