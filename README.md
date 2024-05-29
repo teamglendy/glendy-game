@@ -6,5 +6,5 @@ TODO:
 2. ~~Add an screen for mode selection. (multiplayer, offline)~~
 3. ~~Add an screen for difficulty selection.~~
 4. Optimize code and change variable names if necessary. 
-5. Dynamically set resolution of the game window.
+5. ~~Dynamically set resolution of the game window.~~
 6. Debug!
