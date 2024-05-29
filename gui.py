@@ -6,7 +6,7 @@ import time
 
 class Glendy():
 
-    def __init__(self, difficulty, scale):
+    def __init__(self, difficulty, scale, theme):
 
         self.env = env.GlendyEnv()
         self.n_rows = self.env.rows
@@ -19,10 +19,6 @@ class Glendy():
             self.board_state[block[0]][block[1]] = 1        
         self.done = False
 
-        self.circle_color = (42, 98, 154)
-        self.glenda_color = (255, 218, 120)
-        self.block_color = (255, 127, 62)
-
         self.size = (scale*125, scale*110)
         self.circle_diameter = self.size[1]/11
         self.circle_radius = self.circle_diameter/2
@@ -30,7 +26,13 @@ class Glendy():
 
         pg.display.init()
         self.screen = pg.display.set_mode(self.size)
-        self.screen.fill((255, 255, 255))
+        if theme == 'Light':
+            self.screen.fill((255, 255, 255))
+        elif theme == 'Dark':
+            self.screen.fill((0, 0, 0))
+        self.circle_color = (42, 98, 154)
+        self.glenda_color = (255, 218, 120)
+        self.block_color = (255, 127, 62)
         pg.display.set_caption("Glendy")
         self.draw_board()
         pg.display.update()

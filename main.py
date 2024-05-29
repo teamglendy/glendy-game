@@ -42,16 +42,18 @@ else:
     btn_corner_radius = 32
 
 font = ""
-text_color = "#000000"
 font_size = 25
-btn_fg_color = '#CDE8E5'
-btn_hover_color = '#6DC5D1'
-btn_border_color = '#FEB941'
 
 root.geometry(f'{win_width}x{win_height}+{x}+{y}')
 root.title('Glendy')
 root.resizable(False, False)
-set_appearance_mode("light")
+set_appearance_mode('System')
+
+def change_theme():
+    if get_appearance_mode() == 'Dark':
+        set_appearance_mode('Light')
+    elif get_appearance_mode() == 'Light':
+        set_appearance_mode('Dark')
 
 def get_scale(bsize):
     match bsize:
@@ -69,7 +71,7 @@ def offline_game(window, difficulty, bsize):
     pygame_scale = get_scale(bsize)
     window.destroy()
     root.withdraw()
-    game = gui.Glendy(difficulty, pygame_scale)
+    game = gui.Glendy(difficulty, pygame_scale, get_appearance_mode())
     game.start()
     root.deiconify()
 
@@ -88,9 +90,9 @@ def offline_window():
     newWin.title("Offline mode")
     newWin.geometry(f'{win_width}x{win_height}+{x}+{y}')
     newWin.resizable(False, False)
-    lbl = CTkLabel(master=newWin, text="Select difficulty:", font=(font, font_size), text_color=text_color)
+    lbl = CTkLabel(master=newWin, text="Select difficulty:", font=(font, font_size))
     lbl.place(relx=0.5, rely=0.2, anchor="center")
-    lbl2 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size), text_color=text_color)
+    lbl2 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size))
     lbl2.place(relx=0.5, rely=0.4, anchor="center")
     if platform.system() == 'Linux':
         combo_difficulty = ttk.Combobox(master=newWin, values=['Easy', 'Medium', 'Hard', 'Impossible'], state='readonly', font=(font, font_size-5))
@@ -102,7 +104,7 @@ def offline_window():
     combo_bsize.set('Normal')
     combo_difficulty.place(relx=0.5, rely=0.3, anchor='center')
     combo_bsize.place(relx=0.5, rely=0.5, anchor='center')
-    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:offline_game(newWin, combo_difficulty.get(), combo_bsize.get()), corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
+    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:offline_game(newWin, combo_difficulty.get(), combo_bsize.get()), corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
     btn.place(relx=0.5, rely=0.75, anchor="center")
 
 def online_window():    
@@ -112,9 +114,9 @@ def online_window():
     newWin.title("Online mode")
     newWin.geometry(f'{win_width}x{win_height}+{x}+{y}')
     newWin.resizable(False, False)
-    lbl = CTkLabel(master=newWin, text="Select player:", font=(font, font_size), text_color=text_color)
+    lbl = CTkLabel(master=newWin, text="Select player:", font=(font, font_size))
     lbl.place(relx=0.5, rely=0.2, anchor="center")
-    lbl2 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size), text_color=text_color)
+    lbl2 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size))
     lbl2.place(relx=0.5, rely=0.4, anchor="center")
     if platform.system() == 'Linux':
         combo_player = ttk.Combobox(master=newWin, values=['Glenda', 'Trapper'], state='readonly', font=(font, font_size-5))
@@ -126,7 +128,7 @@ def online_window():
     combo_bsize.set('Normal')
     combo_player.place(relx=0.5, rely=0.3, anchor='center')
     combo_bsize.place(relx=0.5, rely=0.5, anchor='center')
-    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:online_game(newWin, combo_player.get(), combo_bsize.get()), corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
+    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:online_game(newWin, combo_player.get(), combo_bsize.get()), corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
     btn.place(relx=0.5, rely=0.75, anchor="center")
 
 def show_help():
@@ -142,15 +144,16 @@ To escape as GLENDA, you can choose from
 6 neighboring circles around GLENDA each turn.''')
 
 menu = CTkMenuBar(master=root)
-menu.add_cascade("Help", show_help)
+menu.add_cascade('Light/Dark mode', change_theme)
+menu.add_cascade('Help', show_help)
 
-lbl = CTkLabel(master=root, text="Glendy", font=(font, font_size+30), text_color=text_color)
+lbl = CTkLabel(master=root, text='Glendy', font=(font, font_size+30))
 lbl.place(relx=0.5, rely=0.25, anchor="center")
 
-btn = CTkButton(master=root, text='Offline game', command=offline_window, corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
+btn = CTkButton(master=root, text='Offline game', command=offline_window, corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
 btn.place(relx=0.5, rely=0.55, anchor="center")
 
-btn = CTkButton(master=root, text='Online game', command=online_window, corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
+btn = CTkButton(master=root, text='Online game', command=online_window, corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
 btn.place(relx=0.5, rely=0.75, anchor="center")
 
 root.mainloop()
