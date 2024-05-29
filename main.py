@@ -8,8 +8,6 @@ import gui
 import netGUI
 
 root = CTk()
-pygame_scale = 5
-pygame_scale_constant = 1
 
 if platform.system() == 'Windows':
     import ctypes
@@ -21,7 +19,6 @@ if platform.system() == 'Windows':
     x = int(((scaled_width / 2) - (win_width / 2)) * (scale_factor/100))
     y = int(((scaled_height / 2) - (win_height / 1.8)) * (scale_factor/100))
     real_width = ctypes.windll.user32.GetSystemMetrics(0)
-    pygame_scale = int((real_width/125)/2)-pygame_scale_constant
     btn_corner_radius = 32
 
 elif platform.system() == 'Linux':
@@ -31,7 +28,7 @@ elif platform.system() == 'Linux':
     win_height = int(screen_width/4)
     x = int((screen_width / 2) - (win_width / 2))
     y = int((screen_height / 2) - (win_height / 1.8))
-    pygame_scale = int((screen_width/125)/2)-pygame_scale_constant
+    real_width = screen_width
     btn_corner_radius = 0
 
 else:
@@ -41,7 +38,7 @@ else:
     screen_height = root.winfo_screenheight()
     x = int((screen_width / 2) - (win_width / 2))
     y = int((screen_height / 2) - (win_height / 1.8))
-    pygame_scale = int((screen_width/125)/2)-pygame_scale_constant
+    real_width = screen_width
     btn_corner_radius = 32
 
 font = ""
@@ -58,11 +55,20 @@ set_appearance_mode("light")
 
 def online_game():
     root.withdraw()
-    game = netGUI.netGlendy(pygame_scale)
+    game = netGUI.netGlendy(5) # will be dynamic
     game.start()
     root.deiconify()
 
-def offline_game(window, difficulty):
+def offline_game(window, difficulty, bsize):
+    match bsize:
+        case 'Tiny':
+            pygame_scale = int((real_width/125)/2)-5
+        case 'Small':
+            pygame_scale = int((real_width/125)/2)-3
+        case 'Normal':
+            pygame_scale = int((real_width/125)/2)-1
+        case 'Large':
+            pygame_scale = int((real_width/125)/2)+1
     window.destroy()
     root.withdraw()
     game = gui.Glendy(difficulty, pygame_scale)
@@ -76,20 +82,22 @@ def offline_window():
     newWin.title("Offline mode")
     newWin.geometry(f'{win_width}x{win_height}+{x}+{y}')
     newWin.resizable(False, False)
-
     lbl = CTkLabel(master=newWin, text="Select difficulty:", font=(font, font_size), text_color=text_color)
     lbl.place(relx=0.5, rely=0.2, anchor="center")
-    if platform.system() == 'Windows':
-        combo = CTkComboBox(master=newWin, values=['Easy', 'Medium', 'Hard', 'Impossible'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
-    elif platform.system() == 'Linux':
-        combo = ttk.Combobox(master=newWin, values=['Easy', 'Medium', 'Hard', 'Impossible'], state='readonly', font=(font, font_size-5))
+    lbl2 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size), text_color=text_color)
+    lbl2.place(relx=0.5, rely=0.4, anchor="center")
+    if platform.system() == 'Linux':
+        combo_difficulty = ttk.Combobox(master=newWin, values=['Easy', 'Medium', 'Hard', 'Impossible'], state='readonly', font=(font, font_size-5))
+        combo_bsize = ttk.Combobox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5))
     else:
-        combo = CTkComboBox(master=newWin, values=['Easy', 'Medium', 'Hard', 'Impossible'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
-    combo.set('Easy')
-    combo.place(relx=0.5, rely=0.3, anchor="center")
-
-    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:offline_game(newWin, combo.get()), corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
-    btn.place(relx=0.5, rely=0.7, anchor="center")
+        combo_difficulty = CTkComboBox(master=newWin, values=['Easy', 'Medium', 'Hard', 'Impossible'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
+        combo_bsize = CTkComboBox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
+    combo_difficulty.set('Easy')
+    combo_bsize.set('Normal')
+    combo_difficulty.place(relx=0.5, rely=0.3, anchor='center')
+    combo_bsize.place(relx=0.5, rely=0.5, anchor='center')
+    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:offline_game(newWin, combo_difficulty.get(), combo_bsize.get()), corner_radius=btn_corner_radius, fg_color=btn_fg_color, hover_color=btn_hover_color, border_color=btn_border_color, border_width=2, text_color=text_color, font=(font, font_size))
+    btn.place(relx=0.5, rely=0.75, anchor="center")
 
 def show_help():
     messagebox.showinfo(master=root, title="Help", message=
