@@ -6,7 +6,7 @@ import time
 
 class Glendy():
 
-    def __init__(self, difficulty):
+    def __init__(self, difficulty, scale):
 
         self.env = env.GlendyEnv()
         self.n_rows = self.env.rows
@@ -23,7 +23,7 @@ class Glendy():
         self.glenda_color = (255, 218, 120)
         self.block_color = (255, 127, 62)
 
-        self.size = (625, 550)
+        self.size = (scale*125, scale*110)
         self.circle_diameter = self.size[1]/11
         self.circle_radius = self.circle_diameter/2
         self.offset = self.circle_radius/5

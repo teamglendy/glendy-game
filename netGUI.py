@@ -5,7 +5,7 @@ from tkinter import messagebox
 import time
 
 class netGlendy():
-    def __init__(self):
+    def __init__(self, scale):
         self.host = 'localhost'
         self.port = 1768
         self.srv_err = False
@@ -30,7 +30,7 @@ class netGlendy():
             self.glenda_color = (0, 255, 0)
             self.block_color = (255, 0, 0)
 
-            self.size = (625, 550)
+            self.size = (scale*125, scale*110)
             self.circle_diameter = self.size[1]/11
             self.circle_radius = self.circle_diameter/2
             self.offset = self.circle_radius/5
