@@ -96,9 +96,9 @@ class netGlendy():
     def do_move(self):
         row, column = self.get_event()
         if row != None:
-            if self.player == 'trapper':
+            if self.player == 'Trapper':
                 self.sock.send(f'p {column} {row}\n'.encode('utf-8'))
-            elif self.player == 'glenda':
+            elif self.player == 'Glenda':
                 around = self.glenda_around(self.glenda)
                 while (row, column) not in around:
                     row, column = self.get_event()
@@ -132,26 +132,29 @@ class netGlendy():
                 match cmd[0]:
                     case 'CONN':
                         if cmd[1] == '0':
-                            self.player = 'trapper'
+                            self.player = 'Trapper'
                             self.circle_color = (42, 98, 154)
                             self.glenda_color = (255, 218, 120)
                             self.block_color = (255, 127, 62)
                         elif cmd[1] == '1':
-                            self.player = 'glenda'
+                            self.player = 'Glenda'
                             self.circle_color = (1, 32, 78)
                             self.glenda_color = (254, 174, 111)
                             self.block_color = (2, 131, 145)
-                        pg.display.set_caption(f"Glendy - {self.player.upper()}")
+                        pg.display.set_caption(f"{self.player} - Finding opponent...")
                         pg.display.update()
                     case 'w':
                         self.board_state[int(cmd[2])][int(cmd[1])] = 1
                     case 'g':
                         self.board_state[int(cmd[2])][int(cmd[1])] = 2
                     case 'SENT':
+                        pg.display.set_caption(f"{self.player} - Opponent's turn, Please wait")
                         self.draw_board()
                     case 'TURN':
+                        pg.display.set_caption(f"{self.player} - Your turn")
                         self.do_move()
                     case 'SYNC':
+                        pg.display.set_caption(f"{self.player} - Opponent's turn, Please wait")
                         if int(cmd[1]) % 2 != 0:
                             self.board_state[int(cmd[3])][int(cmd[2])] = 1
                             self.draw_board()
