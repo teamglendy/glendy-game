@@ -75,11 +75,11 @@ def offline_game(window, difficulty, bsize):
     game.start()
     root.deiconify()
 
-def online_game(window, player, bsize):
+def online_game(window, player, server, bsize):
     pygame_scale = get_scale(bsize)
     window.destroy()
     root.withdraw()
-    game = netGUI.netGlendy(pygame_scale)
+    game = netGUI.netGlendy(player, server, pygame_scale)
     game.start()
     root.deiconify()
     
@@ -115,21 +115,28 @@ def online_window():
     newWin.geometry(f'{win_width}x{win_height}+{x}+{y}')
     newWin.resizable(False, False)
     lbl = CTkLabel(master=newWin, text="Select player:", font=(font, font_size))
-    lbl.place(relx=0.5, rely=0.2, anchor="center")
-    lbl2 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size))
-    lbl2.place(relx=0.5, rely=0.4, anchor="center")
+    lbl.place(relx=0.5, rely=0.1, anchor="center")
+    lbl2 = CTkLabel(master=newWin, text="Select or enter server address:", font=(font, font_size))
+    lbl2.place(relx=0.5, rely=0.3, anchor="center")
+    lbl3 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size))
+    lbl3.place(relx=0.5, rely=0.5, anchor="center")
     if platform.system() == 'Linux':
         combo_player = ttk.Combobox(master=newWin, values=['Glenda', 'Trapper'], state='readonly', font=(font, font_size-5))
+        combo_server = ttk.Combobox(master=newWin, width=250, values=['ir.cloud9p.org:1768'], font=(font, font_size-5))
         combo_bsize = ttk.Combobox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5))
+
     else:
         combo_player = CTkComboBox(master=newWin, values=['Glenda', 'Trapper'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
+        combo_server = CTkComboBox(master=newWin, width=250, values=['ir.cloud9p.org:1768'], font=(font, font_size-5), dropdown_font=(font, font_size-10))
         combo_bsize = CTkComboBox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
     combo_player.set('Glenda')
+    combo_server.set('ir.cloud9p.org:1768')
     combo_bsize.set('Normal')
-    combo_player.place(relx=0.5, rely=0.3, anchor='center')
-    combo_bsize.place(relx=0.5, rely=0.5, anchor='center')
-    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:online_game(newWin, combo_player.get(), combo_bsize.get()), corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
-    btn.place(relx=0.5, rely=0.75, anchor="center")
+    combo_player.place(relx=0.5, rely=0.2, anchor='center')
+    combo_server.place(relx=0.5, rely=0.4, anchor='center')
+    combo_bsize.place(relx=0.5, rely=0.6, anchor='center')
+    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:online_game(newWin, combo_player.get(), combo_server.get(), combo_bsize.get()), corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
+    btn.place(relx=0.5, rely=0.8, anchor="center")
 
 def show_help():
     messagebox.showinfo(master=root, title="Help", message=

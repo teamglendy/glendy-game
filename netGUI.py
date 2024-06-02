@@ -5,9 +5,10 @@ from tkinter import messagebox
 import time
 
 class netGlendy():
-    def __init__(self, scale):
-        self.host = 'localhost'
-        self.port = 1768
+    def __init__(self, player, server, scale):
+        server = server.split(':')
+        self.host = server[0]
+        self.port = int(server[1])
         self.srv_err = False
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
