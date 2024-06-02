@@ -75,11 +75,11 @@ def offline_game(window, difficulty, bsize):
     game.start()
     root.deiconify()
 
-def online_game(window, player, server, bsize):
+def online_game(window, player, server, bsize, mode):
     pygame_scale = get_scale(bsize)
     window.destroy()
     root.withdraw()
-    game = netGUI.netGlendy(player, server, pygame_scale)
+    game = netGUI.netGlendy(player, server, pygame_scale, mode)
     game.start()
     root.deiconify()
     
@@ -135,8 +135,14 @@ def online_window():
     combo_player.place(relx=0.5, rely=0.2, anchor='center')
     combo_server.place(relx=0.5, rely=0.4, anchor='center')
     combo_bsize.place(relx=0.5, rely=0.6, anchor='center')
-    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:online_game(newWin, combo_player.get(), combo_server.get(), combo_bsize.get()), corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
-    btn.place(relx=0.5, rely=0.8, anchor="center")
+    radio_var = StringVar(value='')
+    radio_mode1 = CTkRadioButton(master=newWin, text='Online multiplayer', value='Multiplayer', variable=radio_var, font=(font, font_size-5))
+    radio_mode2 = CTkRadioButton(master=newWin, text='Online singleplayer', value='Singleplayer', variable=radio_var, font=(font, font_size-5))
+    radio_mode1.select()
+    radio_mode1.place(relx=0.25, rely=0.7, anchor='center')
+    radio_mode2.place(relx=0.75, rely=0.7, anchor='center')
+    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:online_game(newWin, combo_player.get(), combo_server.get(), combo_bsize.get(), radio_var.get()), corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
+    btn.place(relx=0.5, rely=0.86, anchor="center")
 
 def show_help():
     messagebox.showinfo(master=root, title="Help", message=

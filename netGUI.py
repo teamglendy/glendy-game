@@ -5,7 +5,7 @@ from tkinter import messagebox
 import time
 
 class netGlendy():
-    def __init__(self, player, server, scale):
+    def __init__(self, player, server, scale, mode):
         server = server.split(':')
         self.host = server[0]
         self.port = int(server[1])
