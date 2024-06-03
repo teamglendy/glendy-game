@@ -122,7 +122,7 @@ def online_window():
     lbl3.place(relx=0.5, rely=0.5, anchor="center")
     if platform.system() == 'Linux':
         combo_player = ttk.Combobox(master=newWin, values=['Glenda', 'Trapper'], state='readonly', font=(font, font_size-5))
-        combo_server = ttk.Combobox(master=newWin, width=250, values=['ir.cloud9p.org:1768'], font=(font, font_size-5))
+        combo_server = ttk.Combobox(master=newWin, values=['ir.cloud9p.org:1768'], font=(font, font_size-5))
         combo_bsize = ttk.Combobox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5))
 
     else:
@@ -136,8 +136,8 @@ def online_window():
     combo_server.place(relx=0.5, rely=0.4, anchor='center')
     combo_bsize.place(relx=0.5, rely=0.6, anchor='center')
     radio_var = StringVar(value='')
-    radio_mode1 = CTkRadioButton(master=newWin, text='Online multiplayer', value='Multiplayer', variable=radio_var, font=(font, font_size-5))
-    radio_mode2 = CTkRadioButton(master=newWin, text='Online singleplayer', value='Singleplayer', variable=radio_var, font=(font, font_size-5))
+    radio_mode1 = CTkRadioButton(master=newWin, text='Online multiplayer', value='Multiplayer', variable=radio_var, corner_radius=0, font=(font, font_size-5))
+    radio_mode2 = CTkRadioButton(master=newWin, text='Online singleplayer', value='Singleplayer', variable=radio_var, corner_radius=0, font=(font, font_size-5))
     radio_mode1.select()
     radio_mode1.place(relx=0.25, rely=0.7, anchor='center')
     radio_mode2.place(relx=0.75, rely=0.7, anchor='center')
