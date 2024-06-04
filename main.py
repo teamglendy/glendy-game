@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 from customtkinter import *
-from CTkMenuBar import *
+from CTkMenuBar import CTkMenuBar
 from tkinter import messagebox
 from tkinter import ttk
-import platform
+from os import getlogin
+from platform import system
 import gui
 import netGUI
 
 root = CTk()
 
-if platform.system() == 'Windows':
+if system() == 'Windows':
     import ctypes
     scale_factor = ctypes.windll.shcore.GetScaleFactorForDevice(0)
     win_width = 500
@@ -21,7 +22,7 @@ if platform.system() == 'Windows':
     real_width = ctypes.windll.user32.GetSystemMetrics(0)
     btn_corner_radius = 32
 
-elif platform.system() == 'Linux':
+elif system() == 'Linux':
     screen_width = root.winfo_screenwidth()
     screen_height = root.winfo_screenheight()
     win_width = int(screen_width/4)
@@ -75,17 +76,20 @@ def offline_game(window, difficulty, bsize):
     game.start()
     root.deiconify()
 
-def online_game(window, player, server, bsize, mode):
-    pygame_scale = get_scale(bsize)
-    window.destroy()
-    root.withdraw()
-    game = netGUI.netGlendy(player, server, pygame_scale, mode)
-    game.start()
-    root.deiconify()
+def online_game(window, name, player, server, bsize, mode):
+    if name != '':
+        pygame_scale = get_scale(bsize)
+        window.destroy()
+        root.withdraw()
+        game = netGUI.netGlendy(name, player, server, pygame_scale, mode)
+        game.start()
+        root.deiconify()
+    else:
+        messagebox.showwarning(master=window, title='Warning', message='Please enter a name.')
     
 def offline_window():    
     newWin = CTkToplevel(root)
-    if platform.system() == 'Windows':
+    if system() == 'Windows':
         newWin.grab_set()
     newWin.title("Offline mode")
     newWin.geometry(f'{win_width}x{win_height}+{x}+{y}')
@@ -94,7 +98,7 @@ def offline_window():
     lbl.place(relx=0.5, rely=0.2, anchor="center")
     lbl2 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size))
     lbl2.place(relx=0.5, rely=0.4, anchor="center")
-    if platform.system() == 'Linux':
+    if system() == 'Linux':
         combo_difficulty = ttk.Combobox(master=newWin, values=['Easy', 'Medium', 'Hard', 'Impossible'], state='readonly', font=(font, font_size-5))
         combo_bsize = ttk.Combobox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5))
     else:
@@ -109,18 +113,23 @@ def offline_window():
 
 def online_window():    
     newWin = CTkToplevel(root)
-    if platform.system() == 'Windows':
+    if system() == 'Windows':
         newWin.grab_set()
     newWin.title("Online mode")
     newWin.geometry(f'{win_width}x{win_height}+{x}+{y}')
     newWin.resizable(False, False)
-    lbl = CTkLabel(master=newWin, text="Select player:", font=(font, font_size))
-    lbl.place(relx=0.5, rely=0.1, anchor="center")
-    lbl2 = CTkLabel(master=newWin, text="Select or enter server address:", font=(font, font_size))
-    lbl2.place(relx=0.5, rely=0.3, anchor="center")
-    lbl3 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size))
-    lbl3.place(relx=0.5, rely=0.5, anchor="center")
-    if platform.system() == 'Linux':
+    lbl1 = CTkLabel(master=newWin, text="Enter your name:", font=(font, font_size))
+    lbl1.place(relx=0.5, rely=0.08, anchor="center")
+    lbl2 = CTkLabel(master=newWin, text="Select player:", font=(font, font_size))
+    lbl2.place(relx=0.5, rely=0.26, anchor="center")
+    lbl3 = CTkLabel(master=newWin, text="Select or enter server address:", font=(font, font_size))
+    lbl3.place(relx=0.5, rely=0.44, anchor="center")
+    lbl4 = CTkLabel(master=newWin, text="Select board size (visually):", font=(font, font_size))
+    lbl4.place(relx=0.5, rely=0.62, anchor="center")
+    txt_name = CTkTextbox(master=newWin, width=250, height=30, font=(font, font_size-5))
+    txt_name.insert('end', getlogin())
+    txt_name.place(relx=0.5, rely=0.16, anchor="center")
+    if system() == 'Linux':
         combo_player = ttk.Combobox(master=newWin, values=['Glenda', 'Trapper'], state='readonly', font=(font, font_size-5))
         combo_server = ttk.Combobox(master=newWin, values=['ir.cloud9p.org:1768'], font=(font, font_size-5))
         combo_bsize = ttk.Combobox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5))
@@ -132,17 +141,17 @@ def online_window():
     combo_player.set('Glenda')
     combo_server.set('ir.cloud9p.org:1768')
     combo_bsize.set('Normal')
-    combo_player.place(relx=0.5, rely=0.2, anchor='center')
-    combo_server.place(relx=0.5, rely=0.4, anchor='center')
-    combo_bsize.place(relx=0.5, rely=0.6, anchor='center')
+    combo_player.place(relx=0.5, rely=0.34, anchor='center')
+    combo_server.place(relx=0.5, rely=0.52, anchor='center')
+    combo_bsize.place(relx=0.5, rely=0.7, anchor='center')
     radio_var = StringVar(value='')
     radio_mode1 = CTkRadioButton(master=newWin, text='Online multiplayer', value='Multiplayer', variable=radio_var, corner_radius=0, font=(font, font_size-5))
     radio_mode2 = CTkRadioButton(master=newWin, text='Online singleplayer', value='Singleplayer', variable=radio_var, corner_radius=0, font=(font, font_size-5))
     radio_mode1.select()
-    radio_mode1.place(relx=0.25, rely=0.7, anchor='center')
-    radio_mode2.place(relx=0.75, rely=0.7, anchor='center')
-    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:online_game(newWin, combo_player.get(), combo_server.get(), combo_bsize.get(), radio_var.get()), corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
-    btn.place(relx=0.5, rely=0.86, anchor="center")
+    radio_mode1.place(relx=0.25, rely=0.8, anchor='center')
+    radio_mode2.place(relx=0.75, rely=0.8, anchor='center')
+    btn = CTkButton(master=newWin, text='Start the game!', command=lambda:online_game(newWin, txt_name.get('1.0', 'end-1c'), combo_player.get(), combo_server.get(), combo_bsize.get(), radio_var.get()), corner_radius=btn_corner_radius, border_width=2, font=(font, font_size))
+    btn.place(relx=0.5, rely=0.9, anchor="center")
 
 def show_help():
     messagebox.showinfo(master=root, title="Help", message=

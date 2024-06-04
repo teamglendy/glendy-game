@@ -5,13 +5,13 @@ from tkinter import messagebox
 import time
 
 class netGlendy():
-    def __init__(self, player, server, scale, mode):
-        server = server.split(':')
-        self.host = server[0]
-        self.port = int(server[1])
+    def __init__(self, name, player, server, scale, mode):
         self.srv_err = False
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
+            server = server.split(':')
+            self.host = server[0]
+            self.port = int(server[1])
             self.sock.connect((self.host, self.port))
         except:
             messagebox.showerror('Error', 'There was a problem connecting to the server.')
