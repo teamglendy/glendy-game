@@ -192,12 +192,11 @@ class netGlendy():
                             self.board_state[glenda_next[0]][glenda_next[1]] = 2
                             self.glenda = glenda_next
                             self.draw_board()
-                    case 'WALL':    # WALL and GLND are not gonna be reached.
-                        self.do_move()
-                    case 'GLND':
-                        self.do_move()
+                    case 'ERR':
+                        print(msg)
                     case 'DIE':
                         self.done = True
+                        print(msg)
                         break
                     case 'WON':
                         messagebox.showinfo('Win','You won!.')
