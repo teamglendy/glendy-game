@@ -81,7 +81,7 @@ def online_game(window, name, player, server, bsize, mode):
         pygame_scale = get_scale(bsize)
         window.destroy()
         root.withdraw()
-        game = netGUI.netGlendy(name, player, server, pygame_scale, mode)
+        game = netGUI.netGlendy(name, player, server, pygame_scale, mode, get_appearance_mode())
         game.start()
         root.deiconify()
     else:
