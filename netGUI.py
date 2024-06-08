@@ -5,7 +5,7 @@ from tkinter import messagebox
 import time
 
 class netGlendy():
-    def __init__(self, name, player, server, scale, mode):
+    def __init__(self, name, player, server, scale, mode, theme):
         self.srv_err = False
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         try:
@@ -19,7 +19,22 @@ class netGlendy():
         if self.srv_err == False:
             self.sock.settimeout(0.1)
 
-            self.player = ''
+            self.name = name
+            self.player = player
+            match player:
+                case 'Trapper':
+                    self.player_code = 0
+                case 'Glenda':
+                    self.player_code = 1
+                case 'Random':
+                    self.player_code = 2
+            match mode:
+                case 'Multiplayer':
+                    self.mode = 0
+                case 'Singleplayer':
+                    self.mode = 1
+            self.sock.send(f'{self.name} 0 {self.player_code} {self.mode}\n'.encode('utf-8'))
+
             self.n_rows = 11
             self.n_columns = 11
             self.glenda = (5, 5)
@@ -27,7 +42,7 @@ class netGlendy():
             self.done = False
             self.finish = False
 
-            self.circle_color = (0, 0, 0)
+            self.circle_color = (128, 128, 128)
             self.glenda_color = (0, 255, 0)
             self.block_color = (255, 0, 0)
 
@@ -37,9 +52,12 @@ class netGlendy():
             self.offset = self.circle_radius/5
 
             pg.display.init()
-            pg.display.set_caption("Glendy")
+            pg.display.set_caption(f"{self.player} - Finding opponent...")
             self.screen = pg.display.set_mode(self.size)
-            self.screen.fill((255, 255, 255))
+            if theme == 'Light':
+                self.screen.fill((255, 255, 255))
+            elif theme == 'Dark':
+                self.screen.fill((0, 0, 0))
             self.draw_board()
 
     def glenda_around(self, glenda):
@@ -132,16 +150,13 @@ class netGlendy():
                 match cmd[0]:
                     case 'CONN':
                         if cmd[1] == '0':
-                            self.player = 'Trapper'
                             self.circle_color = (42, 98, 154)
                             self.glenda_color = (255, 218, 120)
                             self.block_color = (255, 127, 62)
                         elif cmd[1] == '1':
-                            self.player = 'Glenda'
-                            self.circle_color = (1, 32, 78)
-                            self.glenda_color = (254, 174, 111)
-                            self.block_color = (2, 131, 145)
-                        pg.display.set_caption(f"{self.player} - Finding opponent...")
+                            self.circle_color = (121, 147, 78)
+                            self.glenda_color = (109, 197, 209)
+                            self.block_color = (238, 78, 78)
                         pg.display.update()
                     case 'w':
                         self.board_state[int(cmd[2])][int(cmd[1])] = 1
