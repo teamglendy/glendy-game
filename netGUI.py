@@ -199,10 +199,12 @@ class netGlendy():
                         print(msg)
                         break
                     case 'WON':
+                        pg.display.set_caption(f"{self.player} - You won, {self.name}! :)")
                         messagebox.showinfo('Win','You won!.')
                         self.done = True
                         break
                     case 'LOST':
+                        pg.display.set_caption(f"{self.player} - You lost, {self.name}. :(")
                         messagebox.showinfo('Lose','Gameover.')
                         self.done = True
                         break
