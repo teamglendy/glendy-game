@@ -211,6 +211,7 @@ class netGlendy():
                 cmds.remove(cmds[0])
 
     def alive(self):
+        time.sleep(0.05)
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 self.finish = True
