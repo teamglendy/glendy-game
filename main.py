@@ -165,14 +165,23 @@ def online_window():
 def show_help():
     messagebox.showinfo(master=root, title="Help", message=
     '''Glendy is a simple game.
-One player plays as TRAPPER,
-and the other as GLENDA.
-GLENDA tries to escape by reaching sides,
-and TRAPPER tries to trap GLENDA in walls.
-To put a wall as TRAPPER, click on any
-free circle on the board each turn.
-To escape as GLENDA, you can choose from
-6 neighboring circles around GLENDA each turn.''')
+One player plays as Trapper, and the other as Glenda.
+Glenda tries to escape by reaching sides,
+and Trapper tries to trap Glenda in walls.
+To put a wall as Trapper, click on any free circle
+on the board each turn.
+To escape as Glenda, you can choose from
+6 neighboring circles around Glenda each turn.
+In offline mode,
+you can choose difficulty and board size.
+board size have no effect on game logic,
+and makes game board larger or smaller visually.
+In online mode,
+you should enter a name, you can choose
+the side you prefer and board size.
+You can also enter or choose server address.
+There are two modes too,
+Online multiplayer and Online single player.''')
 
 menu = CTkMenuBar(master=root)
 menu.add_cascade('Light/Dark mode', change_theme)
