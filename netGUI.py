@@ -145,6 +145,11 @@ class netGlendy():
                 msg = self.sock.recv(1024).decode()
             except:
                 break
+            if msg == '':
+                pg.display.set_caption(f"{self.player} - Something went wrong.")
+                messagebox.showerror('Error','Something went wrong. You can exit.')
+                self.done = True
+                break
             cmds = msg.split('\n')
             cmds.pop()
             while len(cmds) > 0:
