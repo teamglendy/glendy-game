@@ -52,6 +52,8 @@ class netGlendy():
             self.offset = self.circle_radius/5
 
             pg.display.init()
+            icon = pg.image.load('glenda.png')
+            pg.display.set_icon(icon)
             pg.display.set_caption(f"{self.player} - Finding opponent...")
             self.screen = pg.display.set_mode(self.size)
             if theme == 'Light':

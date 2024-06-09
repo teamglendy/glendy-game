@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 from customtkinter import *
 from CTkMenuBar import CTkMenuBar
-from tkinter import messagebox
-from tkinter import ttk
+from tkinter import PhotoImage, messagebox, ttk
 from os import getlogin
 from platform import system
 import gui
 import netGUI
 
 root = CTk()
+icon = PhotoImage(file = 'glenda.png')
+root.wm_iconbitmap()
+root.iconphoto(True, icon)
 
 if system() == 'Windows':
     import ctypes
@@ -89,6 +91,7 @@ def online_game(window, name, player, server, bsize, mode):
     
 def offline_window():    
     newWin = CTkToplevel(root)
+    newWin.after(201, lambda: newWin.iconphoto(False, icon))
     if system() == 'Windows':
         newWin.grab_set()
     newWin.title("Offline mode")
@@ -113,6 +116,7 @@ def offline_window():
 
 def online_window():    
     newWin = CTkToplevel(root)
+    newWin.after(201, lambda: newWin.iconphoto(False, icon))
     if system() == 'Windows':
         newWin.grab_set()
     newWin.title("Online mode")
