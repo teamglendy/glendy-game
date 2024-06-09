@@ -25,6 +25,8 @@ class Glendy():
         self.offset = self.circle_radius/5
 
         pg.display.init()
+        icon = pg.image.load('glenda.png')
+        pg.display.set_icon(icon)
         self.screen = pg.display.set_mode(self.size)
         if theme == 'Light':
             self.screen.fill((255, 255, 255))
