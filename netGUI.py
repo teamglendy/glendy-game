@@ -156,6 +156,8 @@ class netGlendy():
             while len(cmds) > 0:
                 cmd = cmds[0].split(' ')
                 match cmd[0]:
+                    case 'UGUD':
+                        self.sock.send('y\n'.encode('utf-8'))
                     case 'CONN':
                         if cmd[1] == '0':
                             self.circle_color = (42, 98, 154)
