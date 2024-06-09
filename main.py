@@ -135,15 +135,15 @@ def online_window():
     txt_name.place(relx=0.5, rely=0.16, anchor="center")
     if system() == 'Linux':
         combo_player = ttk.Combobox(master=newWin, values=['Trapper', 'Glenda', 'Random'], state='readonly', font=(font, font_size-5))
-        combo_server = ttk.Combobox(master=newWin, values=['ir.cloud9p.org:1768'], font=(font, font_size-5))
+        combo_server = ttk.Combobox(master=newWin, values=['unix.cloud9p.org:1768'], font=(font, font_size-5))
         combo_bsize = ttk.Combobox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5))
 
     else:
         combo_player = CTkComboBox(master=newWin, values=['Trapper', 'Glenda', 'Random'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
-        combo_server = CTkComboBox(master=newWin, width=250, values=['ir.cloud9p.org:1768'], font=(font, font_size-5), dropdown_font=(font, font_size-10))
+        combo_server = CTkComboBox(master=newWin, width=250, values=['unix.cloud9p.org:1768'], font=(font, font_size-5), dropdown_font=(font, font_size-10))
         combo_bsize = CTkComboBox(master=newWin, values=['Tiny', 'Small', 'Normal', 'Large'], state='readonly', font=(font, font_size-5), dropdown_font=(font, font_size-10))
-    combo_player.set('Trapper')
-    combo_server.set('ir.cloud9p.org:1768')
+    combo_player.set('Random')
+    combo_server.set('unix.cloud9p.org:1768')
     combo_bsize.set('Normal')
     combo_player.place(relx=0.5, rely=0.34, anchor='center')
     combo_server.place(relx=0.5, rely=0.52, anchor='center')
