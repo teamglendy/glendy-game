@@ -79,7 +79,7 @@ def offline_game(window, difficulty, bsize):
     root.deiconify()
 
 def online_game(window, name, player, server, bsize, mode):
-    if name != '':
+    if name != '' and len(name) <= 32:
         pygame_scale = get_scale(bsize)
         window.destroy()
         root.withdraw()
@@ -87,7 +87,12 @@ def online_game(window, name, player, server, bsize, mode):
         game.start()
         root.deiconify()
     else:
-        messagebox.showwarning(master=window, title='Warning', message='Please enter a name.')
+        if system() == 'Linux':
+            window.withdraw()
+            messagebox.showwarning(master=window, title='Warning', message='Please enter a valid name.')
+            window.deiconify()
+        else:
+            messagebox.showwarning(master=window, title='Warning', message='Please enter a valid name.')
     
 def offline_window():    
     newWin = CTkToplevel(root)
