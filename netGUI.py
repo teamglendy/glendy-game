@@ -160,13 +160,16 @@ class netGlendy():
                         self.sock.send('y\n'.encode('utf-8'))
                     case 'CONN':
                         if cmd[1] == '0':
+                            self.player = 'Trapper'
                             self.circle_color = (42, 98, 154)
                             self.glenda_color = (255, 218, 120)
                             self.block_color = (255, 127, 62)
                         elif cmd[1] == '1':
-                            self.circle_color = (121, 147, 78)
-                            self.glenda_color = (109, 197, 209)
-                            self.block_color = (238, 78, 78)
+                            self.player = 'Glenda'
+                            self.circle_color = (33, 156, 144)
+                            self.glenda_color = (229, 86, 4)
+                            self.block_color = (233, 184, 36)
+                        self.opname = cmd[2]
                         pg.display.update()
                     case 'w':
                         self.board_state[int(cmd[2])][int(cmd[1])] = 1
