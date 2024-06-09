@@ -20,6 +20,7 @@ class netGlendy():
             self.sock.settimeout(0.1)
 
             self.name = name
+            self.opname = ''
             self.player = player
             match player:
                 case 'Trapper':
@@ -170,13 +171,13 @@ class netGlendy():
                     case 'g':
                         self.board_state[int(cmd[2])][int(cmd[1])] = 2
                     case 'SENT':
-                        pg.display.set_caption(f"{self.player} - Opponent's turn, Please wait")
+                        pg.display.set_caption(f"{self.player} - Opponent: {self.opname} - Opponent's turn, Please wait")
                         self.draw_board()
                     case 'TURN':
-                        pg.display.set_caption(f"{self.player} - Your turn")
+                        pg.display.set_caption(f"{self.player} - Opponent: {self.opname} - Your turn")
                         self.do_move()
                     case 'SYNC':
-                        pg.display.set_caption(f"{self.player} - Opponent's turn, Please wait")
+                        pg.display.set_caption(f"{self.player} - Opponent: {self.opname} - Opponent's turn, Please wait")
                         if int(cmd[1]) % 2 != 0:
                             self.board_state[int(cmd[3])][int(cmd[2])] = 1
                             self.draw_board()
