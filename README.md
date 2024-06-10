@@ -23,7 +23,7 @@ You can also enter or choose server address.<br>
 There are two modes too, Online multiplayer and Online single player.</p>
 <h1>Server:</h1>
 <p>You can find server for multiplayer mode at:<br>
-https://cloud9p.org/mkf/glendy/HEAD/info.html</p>
+http://cloud9p.org/mkf/glendy/HEAD/info.html</p>
 <h1>Screenshots:</h1>
 <h2>Main window:</h2>
 
