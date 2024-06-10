@@ -173,8 +173,9 @@ on the board each turn.
 To escape as Glenda, you can choose from
 6 neighboring circles around Glenda each turn.
 In offline mode,
-you can choose difficulty and board size.
-board size have no effect on game logic,
+for now, you can only play as Trapper.
+You can choose difficulty and board size.
+Board size have no effect on game logic,
 and makes game board larger or smaller visually.
 In online mode,
 you should enter a name, you can choose
