@@ -1,6 +1,11 @@
 <h1>What is Glendy:</h1>
 <p>Glendy is a simple game. One player plays as Trapper, and the other as Glenda.<br>
 Glenda tries to escape by reaching sides, and Trapper tries to trap Glenda in walls.</p>
+
+Win state             |  Lose state
+:-------------------------:|:-------------------------:
+![](https://github.com/Mahdi-HSh/glendy-game/blob/main/gameplay/win-state.gif)  |  ![](https://github.com/Mahdi-HSh/glendy-game/blob/main/gameplay/lose-state.gif)
+
 <h1>How to play:</h1>
 <p>To put a wall as Trapper, click on any free circle on the board each turn.<br>
 To escape as Glenda, you can choose from 6 neighboring circles around Glenda each turn.</p>
@@ -11,7 +16,7 @@ It's expected to be compatible with Mac OS and BSDs too.
 <h2>Offline mode</h2>
 <p>For now, you can only play as Trapper in offline mode.<br>
 In offline mode, you can choose difficulty and board size.<br>
-board size have no effect on game logic, and makes game board larger or smaller visually.</p>
+Board size have no effect on game logic, and makes game board larger or smaller visually.</p>
 <h2>Online mode</h2>
 <p>In online mode, you should enter a name, you can choose the side you prefer and board size.<br>
 You can also enter or choose server address.<br>
@@ -37,6 +42,12 @@ Windows dark mode             |  Linux light mode
 Windows dark mode             |  Linux light mode
 :-------------------------:|:-------------------------:
 ![](https://github.com/Mahdi-HSh/glendy-game/blob/main/screenshots/Windows/online-mode.png)  |  ![](https://github.com/Mahdi-HSh/glendy-game/blob/main/screenshots/Linux/online-mode.png)
+
+<h2>Online game:</h2>
+
+Windows dark mode             |  Linux light mode
+:-------------------------:|:-------------------------:
+![](https://github.com/Mahdi-HSh/glendy-game/blob/main/screenshots/Windows/online-game.png)  |  ![](https://github.com/Mahdi-HSh/glendy-game/blob/main/screenshots/Linux/online-game.png)
 
 <h1>TODO:</h1>
 <p>1. <s>Add multiplayer mode.</s><br>
